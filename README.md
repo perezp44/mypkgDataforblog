@@ -1,16 +1,21 @@
 # mypkgfordata
 
-The goal of this package is to serve as a way to load data for my blog ...
+The goal of this package is to serve as a data warehouse to use in my blog **R & Flowers II** at <rflowers2.netlify.com>
 
 ## Installation
 
-You can install `mypkgfordata` from github with:
+You can install `mypkgDataforblog` from github with:
 
 ```R
 # install.packages("devtools")
-devtools::install_github("perezp44/mypkgfordata")
+devtools::install_github("perezp44/mypkgDataforblog")
 ```
 
 ## Example
+
+It will consists only in some data then
+```R
+my_data <- data(some_data)
+```
 
 

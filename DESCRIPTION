@@ -1,11 +1,13 @@
 Package: mypkgDataforblog
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Data warehouse for my blog
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Pedro J. Perez <pjperez@uv.es>
+Maintainer: Pedro J. Perez <pjperez@uv.es>
+Description: Provides datasets for easy loading for my blog
+    R & Flowers II (rflowers2.netlify.com)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: http://github.com/perezp44/mypkgDataforblog
+BugReports: http://github.com/perezp44/mypkgDataforblog/issues
