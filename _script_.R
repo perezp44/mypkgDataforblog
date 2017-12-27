@@ -1,8 +1,8 @@
 library(readxl)
 #dir.create("./data")
 cod_provincias <- read_excel("./data-raw/cod_provincias.xlsx")
-#save(cod_provincias, file="./data/cod_provincias.RData") #- guardamos my_data en formato .RData o .rda
 devtools::use_data(cod_provincias)
+#save(cod_provincias, file="./data/cod_provincias.RData") #- guardamos my_data en formato .RData o .rda
 
 #- acuerdate de documentar cada nuevo fichero de datos q añadas en el fichero:
 #- ./R./data.R
