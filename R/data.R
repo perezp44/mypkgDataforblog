@@ -1,5 +1,5 @@
 #' This file documents datasets
-
+#'
 #' cod_provincias.rda
 #'
 #' Codigos del INE para provincias y CCAA españolas
