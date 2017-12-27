@@ -4,7 +4,7 @@
 \name{cod_provincias}
 \alias{cod_provincias}
 \title{This file documents datasets}
-\format{A data frame with 1991 rows and 13 variables:
+\format{A data frame with 52 rows and 4 variables:
 \itemize{
   \item CODAUTO: Código de CCAA
   \item CCAA: Nombre de la CCAA
