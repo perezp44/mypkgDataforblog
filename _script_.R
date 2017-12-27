@@ -19,23 +19,31 @@ devtools::document()
 
 
 #----- Instalarlo dsde Local
-install.packages("C:/Users/perezp/Desktop/a_GIT_2016a/mypkgfordata", repos = NULL, type="source")
-library(mypkgfordata)
-aa <- data("cod_provincias")
+# install.packages("C:/Users/perezp/Desktop/a_GIT_2016a/mypkgDataforblog", repos = NULL, type="source")
+# library(mypkgfordata)
+# aa <- data("cod_provincias")
+
 #--- instalarlo desde Github
-devtools::install_github("perezp44/mypkgfordata")
+#devtools::install_github("perezp44/mypkgDataforblog")
+
+#- para ver los datos q tengo
+
+library(tidyverse)
+library(mypkgDataforblog)
+data(cod_provincias)
+ls("package:mypkgDataforblog", all = TRUE) #- ves lo que hay en mypkgDataforblog
+aa <- ls("package:mypkgDataforblog", all = TRUE) %>% as.data.frame()#- ves lo que hay en mypkgDataforblog
+
+
 
 
 
 #- Github
 
 cd c:/Users/perezp/Desktop/a_GIT_2016a/mypkgfordata
+git add .
+git commit --all --message "Creando el REPO"
 git remote add origin https://github.com/perezp44/mypkgfordata.git
 
 
-git add .
-git commit --all --message "Creando el REPO"
 
-
-
-aa <- data("cod_provincias")
