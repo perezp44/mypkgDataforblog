@@ -1,8 +1,10 @@
 library(readxl)
 #dir.create("./data")
-cod_provincias <- read_excel("./data-raw/cod_provincias.xlsx")
-devtools::use_data(cod_provincias)
-#save(cod_provincias, file="./data/cod_provincias.RData") #- guardamos my_data en formato .RData o .rda
+
+
+# cod_provincias <- read_excel("./data-raw/cod_provincias.xlsx")
+# devtools::use_data(cod_provincias)
+# save(cod_provincias, file="./data/cod_provincias.RData") #- guardamos my_data en formato .RData o .rda
 
 
 #- AQUI
@@ -29,12 +31,17 @@ devtools::document()
 #- para ver los datos q tengo
 
 library(tidyverse)
+devtools::install_github("perezp44/mypkgDataforblog")
 library(mypkgDataforblog)
+
 data(cod_provincias)
+
 ls("package:mypkgDataforblog", all = TRUE) #- ves lo que hay en mypkgDataforblog
 aa <- ls("package:mypkgDataforblog", all = TRUE) %>% as.data.frame()#- ves lo que hay en mypkgDataforblog
 
+??mypkgDataforblog
 
+vignette(package = "mypkgDataforblog")
 
 
 
