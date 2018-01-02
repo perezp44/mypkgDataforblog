@@ -18,4 +18,8 @@ It will consists only in some data then
 my_data <- data(some_data)
 ```
 
+## Bugs
+
+If you have comments/bugs/issue about the data files, please create an issue [here](https://github.com/perezp44/mypkgDataforblog/issues)
+
 
