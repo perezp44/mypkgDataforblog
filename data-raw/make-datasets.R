@@ -227,18 +227,80 @@ padron_15_x_nac <- df_x
 # devtools::use_data(padron_15_x_nac, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
 
 
+
 #' (03-01-2018)-----------------------------------------------------
 #- en el PADRON hay mas tablas: por edad año a año.
 # padron2015_edad <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000006.px") %>% as.data.frame %>% as.tbl
-
-
-#' (03-01-2018)-----------------------------------------------------
 #- en el PADRON hay mas tablas: por nacimineto agrupado en Nacionales etc... GOOD
 #- padron2015_goo <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000005.px") %>% as.data.frame %>% as.tbl
 #padron2015_edad_5_años <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000001.px") %>% as.data.frame %>% as.tbl
 #padron2015_edad_3_grupos <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000002.px") %>% as.data.frame %>% as.tbl
 #- relacion lugar de nacimineto y residencia (GOOD)
 #padron2015_goo <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000005.px") %>% as.data.frame %>% as.tbl
+
+
+
+
+#' (03-01-2018)-----------------------------------------------------
+#padron2015_edad_5_años <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000001.px") %>% as.data.frame %>% as.tbl
+library(pxR)              #- para trabajar con datos PC-Axis
+df <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000001.px") %>% as.data.frame %>% as.tbl
+aa <- names_v_df_pjp(df)
+bb <- val_unicos_df_pjp(df)
+#- Quito los valores para el TOTAL de ESP
+df_x <- df %>% filter(municipios != "Total") #- quito los valores del total nacional
+df_x <- df_x %>% map_if(is.factor, as.character) %>% as_tibble()
+df_x <- df_x %>% set_names(c("edad_5", "municipios", "sexo", "value")) #- renombro
+df_x <- df_x %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final y al ppio
+df_x <- df_x %>% mutate(value = as.integer(value)) #- lo vuelvo a pasar a numerico (habra algun decimal) No, no hay, son integers
+#- hemos de separar la variable municipio
+df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+aa <- names_v_df_pjp(df_x)
+padron_15_x_edad_5 <- df_x
+# devtools::use_data(padron_15_x_edad_5, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+
+
+#' (03-01-2018)-----------------------------------------------------
+#padron2015_edad_3_grupos <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000002.px") %>% as.data.frame %>% as.tbl
+library(pxR)              #- para trabajar con datos PC-Axis
+df <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000002.px") %>% as.data.frame %>% as.tbl
+aa <- names_v_df_pjp(df)
+bb <- val_unicos_df_pjp(df)
+#- Quito los valores para el TOTAL de ESP
+df_x <- df %>% filter(municipios != "Total") #- quito los valores del total nacional
+df_x <- df_x %>% map_if(is.factor, as.character) %>% as_tibble()
+df_x <- df_x %>% set_names(c("edad_3g", "nacionalidad", "municipios", "sexo", "value")) #- renombro
+df_x <- df_x %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final y al ppio
+df_x <- df_x %>% mutate(value = as.integer(value)) #- lo vuelvo a pasar a numerico (habra algun decimal) No, no hay, son integers
+#- hemos de separar la variable municipio
+df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+aa <- names_v_df_pjp(df_x)
+padron_15_x_edad_3g <- df_x
+# devtools::use_data(padron_15_x_edad_3g, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+
+
+
+
+#' (03-01-2018)-----------------------------------------------------
+#- relacion lugar de nacimineto y residencia (GOOD) (9 grupos)
+#padron2015_goo <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000005.px") %>% as.data.frame %>% as.tbl
+library(pxR)              #- para trabajar con datos PC-Axis
+df <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000005.px") %>% as.data.frame %>% as.tbl
+aa <- names_v_df_pjp(df)
+bb <- val_unicos_df_pjp(df)
+#- Quito los valores para el TOTAL de ESP
+df_x <- df %>% filter(municipios != "Total") #- quito los valores del total nacional
+df_x <- df_x %>% map_if(is.factor, as.character) %>% as_tibble()
+df_x <- df_x %>% set_names(c("res_nac", "municipios", "sexo", "value")) #- renombro
+df_x <- df_x %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final y al ppio
+df_x <- df_x %>% mutate(value = as.integer(value)) #- lo vuelvo a pasar a numerico (habra algun decimal) No, no hay, son integers
+#- hemos de separar la variable municipio
+df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+aa <- names_v_df_pjp(df_x)
+padron_15_x_nac_res <- df_x
+# devtools::use_data(padron_15_x_nac_res, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
 
 
 

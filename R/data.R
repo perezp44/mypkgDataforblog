@@ -288,4 +288,67 @@
 
 
 
+#' padron_15_x_edad_5.rda
+#'
+#' Datos de poblacion (por quinquenios de edad) para cada MUNICIPIO
+#' datos procedentes del Padron de 2015
+#' las v. INECodMuni y NombreMuni salen de separar la v. "municipios"
+#' df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+#'
+#' @format Es una tibble, con 535.854 rows y 5 variables
+#' \itemize{
+#'   \item edad_5: grupo de edad (quinquenios)
+#'   \item INECodMuni: Código de provincia + Código municipio. Es el que usa el INE muchas veces
+#'   \item NombreMuni: nombre del municipio
+#'   \item sexo: [Total, Hombre, Mujer]
+#'   \item value: nº de personas (integer)
+#' }
+#'
+#'
+"padron_15_x_edad_5"
+
+
+
+#' padron_15_x_edad_3g.rda
+#'
+#' Datos de poblacion (3 grupos de edad + el Total) para cada MUNICIPIO
+#' datos procedentes del Padron de 2015
+#' las v. INECodMuni y NombreMuni salen de separar la v. "municipios"
+#' df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+#'
+#' @format Es una tibble, con 292.284 rows y 6 variables
+#' \itemize{
+#'   \item edad_3g: grupo de edad (3+1 grupo)(Total [0-16[, [16-65[  y 65 o mas
+#'   \item nacionalidad: Total, españoles, extranjeros
+#'   \item INECodMuni: Código de provincia + Código municipio. Es el que usa el INE muchas veces
+#'   \item NombreMuni: nombre del municipio
+#'   \item sexo: [Total, Hombre, Mujer]
+#'   \item value: nº de personas (integer)
+#' }
+#'
+#'
+"padron_15_x_edad_3g"
+
+
+
+
+
+#' padron_15_x_nac_res.rda
+#'
+#' Datos de poblacion por relacion entre residencia y nacimineto (9 grupos)
+#' datos procedentes del Padron de 2015
+#' las v. INECodMuni y NombreMuni salen de separar la v. "municipios"
+#' df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+#'
+#' @format Es una tibble, con 219.213 rows y 5 variables
+#' \itemize{
+#'   \item res_nac: 8 gruppos + Total (x residencia y nacimineto)p.ej:Misma Comunidad Autónoma. Misma Provincia
+#'   \item INECodMuni: Código de provincia + Código municipio. Es el que usa el INE muchas veces
+#'   \item NombreMuni: nombre del municipio
+#'   \item sexo: [Total, Hombre, Mujer]
+#'   \item value: nº de personas (integer)
+#' }
+#'
+#'
+"padron_15_x_nac_res"
 
