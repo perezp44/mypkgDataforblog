@@ -352,3 +352,83 @@
 #'
 "padron_15_x_nac_res"
 
+
+
+
+#' df_PEN_2017.rda
+#'
+#' Hack del Plan Estadistico Nacional 2017
+#' Los detalles en "./data-raw/script_hack_PEN_2017_v1.R"
+#' Lo q si t has de acordar es que en 2017 habia 400 operaciones estadisticas
+#' PERO q como aparte del code_PEN hay otro codigo (code_IOE)
+#' pues por eso hay 474 filas pero solo 400 operaciones del PEN
+#' o sea, hay 74 rows con la v. code_PEN = NA
+#'
+#' Hay mas variables de las que muestro (generalmente de organismos involucrados)
+#'
+#' @format Es una tibble, con unas 474 rows y 35 variables
+#' \itemize{
+#'   \item code_PEN: es el código de la operacion estadistica en el PEN (este es el GOOD)
+#'   \item op_estadistica: el nombre de la operacion estadistica
+#'   \item code_IOE: código INE del "inventario de operaciones estadisticas" Es otro codigo al del PEN
+#'   \item code_PEN_filled: code_PEN rellenando los NA accordingly (pero no lo uses salvo q realmnete lo quieras)
+#'   \item ppto_total: coste de la encuenta (solo 2 operaciones tienen 2 organismos financiadores)
+#'   \item id_sector: id sector o tema
+#'   \item sector: sector o tema
+#'   \item id_ministerio: cada operacion esta adscrita a un Ministerio
+#'   \item Ministerio: nombre del Ministerio
+#'   \item org_ppto1: siglas del organismo que financia la operacion estadistica
+#'   \item org_involu1: el primero de la lista de organismo involucrados en la encuesta (llega a ver hasta 12 organismos)
+#' }
+#'
+#'
+"df_PEN_2017"
+
+
+
+
+#' df_PEN_2018.rda
+#'
+#' Hack del Plan Estadistico Nacional 2018
+#' Los detalles en "./data-raw/script_hack_PEN_2018_v1.R"
+#' Lo q si t has de acordar es que en 2018 habia 407 operaciones estadisticas
+#' PERO q como aparte del code_PEN hay otro codigo (code_IOE)
+#' pues por eso hay 483 filas pero solo 400 operaciones del PEN
+#' o sea, hay 76 con la v. code_PEN = NA
+#'
+#' Hay mas variables de las que muestro (generalmente de organismos involucrados)
+#'
+#' @format Es una tibble, con unas 483 rows y 35 variables
+#' \itemize{
+#'   \item code_PEN: es el código de la operacion estadistica en el PEN (este es el GOOD)
+#'   \item op_estadistica: el nombre de la operacion estadistica
+#'   \item code_IOE: código INE del "inventario de operaciones estadisticas" Es otro codigo al del PEN
+#'   \item code_PEN_filled: code_PEN rellenando los NA accordingly (pero no lo uses salvo q realmnete lo quieras)
+#'   \item ppto_total: coste de la encuenta (solo 2 operaciones tienen 2 organismos financiadores)
+#'   \item id_sector: id sector o tema
+#'   \item sector: sector o tema
+#'   \item id_ministerio: cada operacion esta adscrita a un Ministerio
+#'   \item Ministerio: nombre del Ministerio
+#'   \item org_ppto1: siglas del organismo que financia la operacion estadistica
+#'   \item org_involu1: el primero de la lista de organismo involucrados en la encuesta (llega a ver hasta 12 organismos)
+#' }
+#'
+#'
+"df_PEN_2018"
+
+
+
+
+#' listado_organismos_PEN.rda
+#'
+#' Listado de organismos en el Plan Estadistico Nacional (estan en un apendice)
+#' Los detalles en "./data-raw/script_hack_PEN_2018_v1.R"
+#'
+#' @format Es una tibble, con unas 35 rows y 2 variables
+#' \itemize{
+#'   \item sigla_org: siglas del organismo (BANESP)
+#'   \item name_org: nombre del organismo (Banco de España)
+#' }
+#'
+#'
+"listado_organismos_PEN"

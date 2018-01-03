@@ -24,6 +24,7 @@ library(stringr)
 library(personal.pjp)
 library(tidyverse)
 library(rvest)
+library(here)
 
 #- En realidad hay 3 documentos:
 #- 1) el PEN 2017-2020 (http://www.boe.es/boe/dias/2016/11/18/pdfs/BOE-A-2016-10773.pdf)
@@ -31,6 +32,8 @@ library(rvest)
 #- 3) el PEN para 2018 (http://www.boe.es/boe/dias/2017/12/29/pdfs/BOE-A-2017-15722.pdf)
 #- Ademas cada pdf tiene asociado un archivo .xml; pero solo son útiles los de 2017 y 2018
 #- xq resulta q el .xml de 2017-2020 tiene la informacion en imagenes
+#- Se q en el PEN 2017-2020 hay 408 operaciones estádisticas
+#- luego vere q en 2017 solo salen 400 y en 2018 salen 407 supongo q las otras no están activadas
 
 #- primero me baje los 3 pdf y los 3 xml para poder trabajar en LOCAL
 #- download pdf file
@@ -62,7 +65,9 @@ library(rvest)
 
 #- En 2018 hay 407 operaciones vs. 400 en 2017
 
-PEN_2018 <- read_html("./pdfs_2018/BOE-A-2017-15722.xml")
+#PEN_2018 <- read_html("./pdfs_2018/BOE-A-2017-15722.xml")
+PEN_2018 <- read_html(paste0(here(), "./data-raw/Plan_Estadistico_nacional/pdfs_2018/BOE-A-2017-15722.xml"))
+
 
 #- tras inspección visual veo que el listado de operaciones estan en los nodos <p>
 parrafos <- PEN_2018 %>% html_nodes('body') %>%
@@ -502,12 +507,36 @@ df_474_op_ok <- left_join( df_estad_x_org_ok, df_A_ok, by = "codigo_op_estadisti
 df_quedarse <- c("df_400_op_ok", "df_474_op_ok", "df_estad_x_org_ok", "df_estad_x_temas", "df_org_ok", "df_ppto_ok", "ministerios_ok")
 rm(list= ls()[!(ls() %in% df_quedarse)])   #- remueve todo excepto
 
-#------------------ JUGAR a ver q sale
-jugar <- df_400_op_ok %>% select(codigo_op_estadistica, op_estadistica, ppto_total, ppto1, org_ppto1, Ministerio, sector , Trabajos_ejec)
+#- Me decido por exportar df_474_op_ok  ( es un poco mas lio de codigos PERO tengo TODA la info.)
+#- SOLO has de recordar q. el codigo importante para el PEN es "codigo_op_estadistica"
+#- voy a duplicarlo
+df_PEN_2017 <- df_474_op_ok %>% mutate(periodo = "2018")
+df_PEN_2017 <- df_PEN_2017 %>% rename(code_PEN = codigo_op_estadistica)
+df_PEN_2017 <- df_PEN_2017 %>% rename(code_PEN_filled = code_filled)
+df_PEN_2017 <- df_PEN_2017 %>% rename(code_IOE = cod_IOE)
 
-jugar2 <- jugar %>% arrange(desc(ppto_total))
+df_PEN_2017 <- df_PEN_2017 %>%select(code_PEN, op_estadistica, code_IOE, code_PEN_filled, ppto_total, id_sector, sector, id_ministerio, Ministerio, org_ppto1, org_involu1, everything())
+df_PEN_2017 <- df_PEN_2017 %>%select(-id_operaciones)
+
+
+df_PEN_2018 <- df_PEN_2017
+aa <- names_v_df_pjp(df_PEN_2018)
+
+#devtools::use_data(df_PEN_2018, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+#tb exporto el listado de codigos de organismos
+
+listado_organismos_PEN <- df_org_ok
+#devtools::use_data(listado_organismos_PEN, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+
+#------------------ JUGAR a ver q sale
+#jugar <- df_400_op_ok %>% select(codigo_op_estadistica, op_estadistica, ppto_total, ppto1, org_ppto1, Ministerio, sector , Trabajos_ejec)
+
+#jugar2 <- jugar %>% arrange(desc(ppto_total))
 
 
 #- Ver si cuadra con los resultados del PDF
+
 
 #- SOLO queda fusionar 2017 y 2018
