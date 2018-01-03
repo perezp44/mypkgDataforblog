@@ -3,26 +3,43 @@ library(stringr)
 library(readxl)
 library(readr)
 library(here)
-
+library(personal.pjp)
 
 #' (27-12-2017)-----------------------------------------------------
 
 ## Fichero INE con los códigos de las provincias y CCAA
 cod_provincias <- read_excel(paste0(here(), "./data-raw/cod_provincias.xlsx"))
+aa <- names_v_df_pjp(cod_provincias) #- ok, todo character
 # devtools::use_data(cod_provincias) #- lo guargo
 
 
 ## fichero del INE con los municipios a 1-enero-2016
 cod_municipios_16 <- read_excel(paste0(here(), "./data-raw/cod_municipios.xlsx"), skip = 1)
+aa <- names_v_df_pjp(cod_municipios_16) #- ok, todo character
 # devtools::use_data(cod_municipios_16) #- lo guargo
 
 ## Voy a fusionar cod_municipios_16 con cod_provincias
-cod_municipios_16 <- cod_municipios_16 %>% mutate(INECodMuni = paste0(CPRO, CMUN))
-cod_municipios_16 <- cod_municipios_16 %>% select(INECodMuni, NOMBRE, CPRO, DC)
-## Hay 8125 municipios.
-## Voy a fusionarlos con los códigos de las provincias y CCAA
+## Primero creo el codigo mas habitual en INE: INECodMuni
+cod_municipios_16 <- cod_municipios_16 %>% mutate(INECodMuni = paste0(CPRO, CMUN)) #- Hay 8125 municipios.
+cod_provincias <- cod_provincias %>% select(-CODAUTO) #- la quito xq sino se duplicaria
+#- el fichero lo llamo cod_INE_muni_pjp
 cod_INE_muni_pjp <-  left_join(cod_municipios_16, cod_provincias, by = "CPRO")
-# devtools::use_data(cod_INE_muni_pjp) #- lo guargo
+aa <- names_v_df_pjp(cod_INE_muni_pjp) #- ok, todo character
+#- renombro las primeras columnas para hacerlas compatibles con "municipios_CNIG"
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% rename(NombreMuni = NOMBRE)
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% rename(NombreProv = PROVINCIA)
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% rename(NombreCCAA = CCAA)
+#- cambio nombre de las series de cogigos, la de los municipios ya esta hecha (INECodMuni)
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% rename(INECodProv = CPRO)
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% rename(INECodCCAA = CODAUTO)
+#- Creo version numerica de los codigos INE de CCAA, prov y municipios
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% mutate(INENumMuni = as.integer(INECodMuni))
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% mutate(INENumProv = as.integer(INECodProv))
+cod_INE_muni_pjp <- cod_INE_muni_pjp %>% mutate(INENumCCAA = as.integer(INECodCCAA))
+aa <- names_v_df_pjp(cod_INE_muni_pjp) #- ok, todo character y 3 integers
+
+
+#devtools::use_data(cod_INE_muni_pjp, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
 
 
 
@@ -30,6 +47,7 @@ cod_INE_muni_pjp <-  left_join(cod_municipios_16, cod_provincias, by = "CPRO")
 
 ## Shapefiles de GADM database of Global Administrative Areas:  http://www.gadm.org/country
 esp_adm0 <- readRDS(file = "./data-raw/spatial_ESP/GADM/ESP_adm0.rds")  #- shape GADM de ESPAÑA pais
+# aa <- esp_adm0@data
 # devtools::use_data(esp_adm0) #- lo guargo
 
 #' (27-12-2017)-----------------------------------------------------
@@ -136,20 +154,91 @@ esp_adm4 <- readRDS(file = "./data-raw/spatial_ESP/GADM/ESP_adm4.rds")  #- shape
 library(rgdal)
 municipios_CNIG <- readOGR(dsn = "./data-raw/spatial_ESP/Municipios2011_ETRS89_LAEA", layer = "Municipios2011_ETRS89_LAEA", encoding = 'UTF-8', use_iconv = TRUE)
 municipios_CNIG_df <- as.data.frame(municipios_CNIG, encoding = 'UTF-8', use_iconv = T)   #- 8.116 municipios
-# devtools::use_data(municipios_CNIG) #- lo guargo
+aa <- names_v_df_pjp(municipios_CNIG_df) #- muchos factores
+#- paso factores a character
+municipios_CNIG_df <-  municipios_CNIG_df %>% map_if(is.factor, as.character) %>% as_tibble()
+municipios_CNIG@data <-  municipios_CNIG_df
+aa <- names_v_df_pjp(municipios_CNIG@data) #- muchos factores
+# devtools::use_data(municipios_CNIG, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
 
 #' (27-12-2017)-----------------------------------------------------
 ## Shapefiles del CNIG/INE: Provincias
 library(rgdal)
 provincias_CNIG <- readOGR(dsn = "./data-raw/spatial_ESP/Provincias2011_ETRS89_LAEA", layer = "Provincias2011_ETRS89_LAEA", encoding = 'UTF-8', use_iconv = TRUE)
 provincias_CNIG_df <- as.data.frame(provincias_CNIG, encoding = 'UTF-8', use_iconv = T)   #- 52 provincias, 10 variables
-# devtools::use_data(provincias_CNIG) #- lo guargo
+aa <- names_v_df_pjp(provincias_CNIG_df) #- muchos factores
+#- paso factores a character
+provincias_CNIG_df <-  provincias_CNIG_df %>% map_if(is.factor, as.character) %>% as_tibble()
+provincias_CNIG@data <-  provincias_CNIG_df
+aa <- names_v_df_pjp(provincias_CNIG@data) #- muchos factores
+# devtools::use_data(municipios_CNIG, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
 
 #' (27-12-2017)-----------------------------------------------------
 ## Shapefiles del CNIG/INE: CCAA
+#- Ceuta y melilla van JUNTAS (la 18 CCAA) - IMPORTANTE!!
 library(rgdal)
 CCAA_CNIG <- readOGR(dsn = "./data-raw/spatial_ESP/CCAA2011_ETRS89_LAEA", layer = "CCAA2011_ETRS89_LAEA", encoding = 'UTF-8', use_iconv = TRUE)
 CCAA_CNIG_df <- as.data.frame(CCAA_CNIG, encoding = 'UTF-8', use_iconv = T)   #- 18 CCAA, 7 variables
-# devtools::use_data(CCAA_CNIG) #- Ceuta y melilla van JUNTAS (la 18 CCAA)
+aa <- names_v_df_pjp(CCAA_CNIG_df) #- 2 factores
+#- paso factores a character
+CCAA_CNIG_df <-  CCAA_CNIG_df %>% map_if(is.factor, as.character) %>% as_tibble()
+CCAA_CNIG@data <-  CCAA_CNIG_df
+aa <- names_v_df_pjp(CCAA_CNIG@data) #- muchos factores
+# devtools::use_data(CCAA_CNIG, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+#- Ceuta y melilla van JUNTAS (la 18 CCAA) - IMPORTANTE!!
+
+
+
+#' (03-01-2018)-----------------------------------------------------
+#- quiero datos de poblacion por municipio, y lo q mas facil tengo es PADRON de 2015
+library(pxR)              #- para trabajar con datos PC-Axis
+df <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000004.px") %>% as.data.frame %>% as.tbl
+aa <- names_v_df_pjp(df)
+bb <- val_unicos_df_pjp(df)
+#- primero poblacion total (Toda ESP) la quito y la grabo
+df_esp <- df %>% filter(municipios == "Total")
+df_esp <- df_esp %>% map_if(is.factor, as.character) %>% as_tibble()
+df_esp <- df_esp %>% set_names(c("pais_nacimiento", "municipios", "sexo", "value")) #- renombro
+df_esp <- df_esp %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final y al ppio
+df_esp <- df_esp %>% mutate(value = as.integer(value)) #- lo vuelvo a pasar a numerico (habra algun decimal) No, no hay, son integers
+aa <- names_v_df_pjp(df_esp)
+padron_15_total_x_nac <- df_esp
+# devtools::use_data(padron_15_total_x_nac, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+
+
+#' (03-01-2018)-----------------------------------------------------
+#- quiero datos de poblacion por municipio, y lo q mas facil tengo es PADRON de 2015
+library(pxR)              #- para trabajar con datos PC-Axis
+df <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000004.px") %>% as.data.frame %>% as.tbl
+aa <- names_v_df_pjp(df)
+bb <- val_unicos_df_pjp(df)
+#- Quito los valores para el TOTAL de ESP, ya lo he grabado arriba
+df_x <- df %>% filter(municipios != "Total") #- quito los valores del total nacional
+df_x <- df_x %>% map_if(is.factor, as.character) %>% as_tibble()
+df_x <- df_x %>% set_names(c("pais_nacimiento", "municipios", "sexo", "value")) #- renombro
+df_x <- df_x %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final y al ppio
+df_x <- df_x %>% mutate(value = as.integer(value)) #- lo vuelvo a pasar a numerico (habra algun decimal) No, no hay, son integers
+#- hemos de separar la variable municipio
+df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+aa <- names_v_df_pjp(df_x)
+padron_15_x_nac <- df_x
+# devtools::use_data(padron_15_x_nac, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+
+#' (03-01-2018)-----------------------------------------------------
+#- en el PADRON hay mas tablas: por edad año a año.
+# padron2015_edad <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000006.px") %>% as.data.frame %>% as.tbl
+
+
+#' (03-01-2018)-----------------------------------------------------
+#- en el PADRON hay mas tablas: por nacimineto agrupado en Nacionales etc... GOOD
+#- padron2015_goo <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000005.px") %>% as.data.frame %>% as.tbl
+#padron2015_edad_5_años <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000001.px") %>% as.data.frame %>% as.tbl
+#padron2015_edad_3_grupos <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000002.px") %>% as.data.frame %>% as.tbl
+#- relacion lugar de nacimineto y residencia (GOOD)
+#padron2015_goo <- read.px("http://www.ine.es/pcaxisdl/t20/e245/p05/a2015/l0/00000005.px") %>% as.data.frame %>% as.tbl
+
 
 

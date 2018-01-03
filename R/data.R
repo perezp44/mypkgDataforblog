@@ -43,20 +43,24 @@
 #' tb tiene los codigos de provincia y CCAA
 #' los he unido yo asi:
 #'
-#' cod_municipios_16 <- cod_municipios_16 %>% mutate(INECodMuni = paste0(CPRO, CMUN))
-#' cod_municipios_16 <- cod_municipios_16 %>% select(INECodMuni, NOMBRE, CPRO, DC)
+#' cod_municipios_16 <- cod_municipios_16 %>% mutate(INECodMuni = paste0(CPRO, CMUN)) #- Hay 8125 municipios.
+#' cod_provincias <- cod_provincias %>% select(-CODAUTO) #- la quito xq sino se duplicaria
 #' cod_INE_muni_pjp <-  left_join(cod_municipios_16, cod_provincias, by = "CPRO")
 #'
 #'
-#' @format A data frame with 8125 rows and 7 variables:
+#' @format A data frame with 8125 rows and 11 variables:
 #' \itemize{
-#'   \item INECodMuni: Código de provincia + Código municipio. Es el que usa el INE muchas veces
-#'   \item NOMBRE: Nombre del municipio
-#'   \item CPRO: Código de la provincia
+#'   \item INECodCCAA: Código de CCAA
+#'   \item INECodProv: Código de la provincia
+#'   \item CMUN: Código del municipio (es del INE, pero sin el codigo de la Provincia no es útil)
 #'   \item DC: Código de control
-#'   \item CODAUTO: Código de CCAA
-#'   \item CCAA: Nombre de la CCAA
-#'   \item PROVINCIA: Nombre de la provincia
+#'   \item NombreMuni: Nombre del municipio
+#'   \item INECodMuni: Código de provincia + Código municipio. Es el que usa el INE muchas veces (5 digitos)
+#'   \item NombreCCAA: Nombre de la CCAA
+#'   \item NombreProv: Nombre de la provincia
+#'   \item INENumMuni: número del municipio (as.integer(INECodMuni))
+#'   \item INENumProv: número de la provincia (as.integer(INECodProv))
+#'   \item INENumCCAA: número de la CCAA (as.integer(INECodCCAA))
 #' }
 #'
 #'
@@ -176,7 +180,7 @@
 #' pero resulta que en el fichero del INE tengo 8125 municipios
 #' \itemize{
 #'   \item NombreMuni: nombre del municipio
-#'   \item INECodMuni: codigo del municipio [tiene 5 codigos; cod_prov+cod_muni]
+#'   \item INECodMuni: codigo del municipio [tiene 5 dígitos; cod_prov+cod_muni]
 #'   \item INENumMuni: número del municipio
 #'   \item NombreProv:
 #'   \item INECodProv:
@@ -241,6 +245,46 @@
 #' @source \url{https://www.cnig.es/}
 "CCAA_CNIG"
 
+
+
+
+#' padron_15_total_x_nac.rda
+#'
+#' Datos de poblacion (por nacionalidad) para el total de Spain
+#' datos procedentes del Padron de 2015
+#'
+#' @format Es una tibble, con 114 rows y 4 variables
+#' \itemize{
+#'   \item pais_nacimiento:
+#'   \item municipios: en este df esta v. es inutil xq los datos son para el total nacional, pero lo dejo
+#'   \item sexo: [Total, Hombre, Mujer]
+#'   \item value: nº de personas (integer)
+#' }
+#'
+#'
+"padron_15_total_x_nac"
+
+
+
+
+#' padron_15_x_nac.rda
+#'
+#' Datos de poblacion (por nacionalidad) para cada MUNICIPIO
+#' datos procedentes del Padron de 2015
+#' las v. INECodMuni y NombreMuni salen de separar la v. "municipios"
+#' df_x <- df_x %>% separate(municipios, into= c("INECodMuni", "NombreMuni"), by = "-", extra = "merge")
+#'
+#' @format Es una tibble, con 925.566 rows y 5 variables
+#' \itemize{
+#'   \item pais_nacimiento:
+#'   \item INECodMuni: Código de provincia + Código municipio. Es el que usa el INE muchas veces
+#'   \item NombreMuni: nombre del municipio
+#'   \item sexo: [Total, Hombre, Mujer]
+#'   \item value: nº de personas (integer)
+#' }
+#'
+#'
+"padron_15_x_nac"
 
 
 

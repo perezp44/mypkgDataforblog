@@ -48,9 +48,18 @@ vignette(package = "mypkgDataforblog")
 #- Github
 
 cd c:/Users/perezp/Desktop/a_GIT_2016a/mypkgfordata
+
+git add -A    # stages all files
 git add .
 git commit --all --message "Creando el REPO"
 git remote add origin https://github.com/perezp44/mypkgfordata.git
 
+
+
+
+git add -A         # stages all files
+git add .          # stages new and modified, without deleted
+git add -u         # stages modified and deleted, without new
+git add file.R     # stages just the 'file.R' file
 
 
