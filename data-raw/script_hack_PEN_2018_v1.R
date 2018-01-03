@@ -1,5 +1,5 @@
 #- Objetivo: Hackear el Plan Estadistico Nacional (PEN) 2017-2020 en .... 2018
-#- Resulta que la informacion sobre el PEN solo esta disponible (al menos para mi) 
+#- Resulta que la informacion sobre el PEN solo esta disponible (al menos para mi)
 #- en ficheros .pdf y .xlm (perfecto si estuviera biene structurado pero no es el caso)
 #- entonces se trata de sacar la informacion del PEN y ponerla en un dataframe
 #- ¿Qué información hay? Pues hay 3 listados
@@ -29,14 +29,14 @@ library(rvest)
 #- 1) el PEN 2017-2020 (http://www.boe.es/boe/dias/2016/11/18/pdfs/BOE-A-2016-10773.pdf)
 #- 2) el PEN para 2017 (http://www.boe.es/boe/dias/2016/12/31/pdfs/BOE-A-2016-12607.pdf)
 #- 3) el PEN para 2018 (http://www.boe.es/boe/dias/2017/12/29/pdfs/BOE-A-2017-15722.pdf)
-#- Ademas cada pdf tiene asociado un archivo .xml; pero solo son útiles los de 2017 y 2018 
+#- Ademas cada pdf tiene asociado un archivo .xml; pero solo son útiles los de 2017 y 2018
 #- xq resulta q el .xml de 2017-2020 tiene la informacion en imagenes
 
 #- primero me baje los 3 pdf y los 3 xml para poder trabajar en LOCAL
-#- download pdf file 
+#- download pdf file
 # download.file("https://www.boe.es/boe/dias/2016/12/31/pdfs/BOE-A-2016-12607.pdf",  destfile = "./pdfs/plan_estadistico_nacional.pdf", mode = "wb") # - no se descarga bien
 #- dowload XML file ()
-# download.file("https://www.boe.es/diario_boe/xml.php?id=BOE-A-2016-12607",  destfile = "./pdfs/plan_estadistico_nacional.xml", mode = "wb") # - 
+# download.file("https://www.boe.es/diario_boe/xml.php?id=BOE-A-2016-12607",  destfile = "./pdfs/plan_estadistico_nacional.xml", mode = "wb") # -
 #- he guardado los links de descarga en: ./pdfs_2018/
 #- Hay 3 documentos pdf: 1) El Plan 2017-2020 2) El plan para 2017 y 3) El plan para 2018
 #- Tb hay 3 documentos XML, PERO solo 2 de ellos me valdran, xq el del Plan 2017-2020 en lugar de texto tiene imagenes. (NO PUEDE SER!!)
@@ -47,7 +47,7 @@ library(rvest)
 
 #- Plan estadistico nacional 2017-2020 (PEN_2017_2020)
 #- pero resulta que no es texto, sino imagenes, asi q tendre q hacerlo como pdf (ya vorem)
-# PEN_2017_2020 <- read_html("./pdfs_2018/BOE-A-2016-10773.xml") 
+# PEN_2017_2020 <- read_html("./pdfs_2018/BOE-A-2016-10773.xml")
 
 
 #---------------------------------------------- Me centro en PEN-2018    (2018)
@@ -62,12 +62,12 @@ library(rvest)
 
 #- En 2018 hay 407 operaciones vs. 400 en 2017
 
-PEN_2018 <- read_html("./pdfs_2018/BOE-A-2017-15722.xml") 
+PEN_2018 <- read_html("./pdfs_2018/BOE-A-2017-15722.xml")
 
 #- tras inspección visual veo que el listado de operaciones estan en los nodos <p>
-parrafos <- PEN_2018 %>% html_nodes('body') %>% 
-                         html_nodes('documento') %>% 
-                         html_nodes("p") 
+parrafos <- PEN_2018 %>% html_nodes('body') %>%
+                         html_nodes('documento') %>%
+                         html_nodes("p")
 #- extraigo el texto q hay en los nodos <p>
 parrafos_txt <- parrafos %>% html_text() %>% as.data.frame()   #- 6315 rows, el de 2017 tenía 6085 rows
 
@@ -91,7 +91,7 @@ aa_even <- aa %>% filter(is_even == "even")  %>%  select(linea) %>% rename(name_
 aa_odd <- aa %>% filter(is_even != "even")  %>%  select(linea) %>% rename(sigla_org = linea)
 df_org_ok <- bind_cols(aa_odd, aa_even)
 
-df_org_ok <- df_org_ok %>% mutate(sigla_org = as.character(sigla_org)) %>% 
+df_org_ok <- df_org_ok %>% mutate(sigla_org = as.character(sigla_org)) %>%
                                        mutate(name_org = as.character(name_org))
 rm(aa, aa_even, aa_odd, lista_organismos)
 
@@ -113,7 +113,7 @@ temas <- temas %>% mutate(id_sector = 1:n()) %>% select(id_sector, everything())
 
 #- genero indices para coger las operaciones estadisticas q caen dentro de cada Sector o tema
 temas <- temas %>% mutate(n1 = id_tmp+1 )
-temas <- temas %>% mutate(n2 = lead(id_tmp)-1) 
+temas <- temas %>% mutate(n2 = lead(id_tmp)-1)
 temas$n2[nrow(temas)] <- nrow(aa)  #- el segundo index(n2) del ultimo tema tengo que ponerlo a mano.
 temas <- temas %>% select(-id_tmp)  #- quito el indice temporal
 temas <- temas %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final y al ppio
@@ -156,10 +156,10 @@ rm(df_temas_ok)
 
 #----------------------------------------  SEGUNDO: parseamos el listado de operaciones por organismos
 #- Hay varios problemas (al menos en 2017):
-#- 1. Los organismos no los pone para cada operaciones sino que van por epigrafes; 
+#- 1. Los organismos no los pone para cada operaciones sino que van por epigrafes;
 #- entonces solo estare seguro (para cada operacion) de cual es el primer y el ultimo organismo
 #- para entender lo q digo ve al principio de la pp. 22 del pdf.
-#- 2. HAY UN FALLLLOOOO: resulta que la operación estadistica Recaudacion Tributaria" cuyo verdader codigo es el 7528, 
+#- 2. HAY UN FALLLLOOOO: resulta que la operación estadistica Recaudacion Tributaria" cuyo verdader codigo es el 7528,
 #- en esta seccion en el BOE tiene asignado el codigo 7526, en lugar del de 7528 que es el q le correspone (mira el listado de operaciones)
 #- lo arreglare más abajo con esta instrucción: numeros_2[3,1] <- 7528   #- AQUI ARREGLO EL FALLO
 #- 3. Hay un "fallo" de formato que me complica la vida:
@@ -203,14 +203,14 @@ numeros_3 <- numeros_3 %>% mutate(code = NA) %>% select(code, everything())
 numeros_3 <- numeros_3 %>% rename(linea_n_1 = linea_n)
 
 
-#- La operacion "Recaudacion Tributaria" cuyo verdadero codigo es el 7528, 
+#- La operacion "Recaudacion Tributaria" cuyo verdadero codigo es el 7528,
 #- en esta seccion en el BOE tiene puesto codigo 7526
 #- esta en numeros_2, en la tercera row
 # numeros_2[3,1] <- 7528   #- AQUI ARREGLO EL FALLO (en 2017, pero en 2018 ESTA BIEN)
 
 
 #- agrupo las 3 categorias de operaciones (en f. de como tengan puestos los 2 codigos q hay en el listado x organismos)
-numeros_ok <- bind_rows(numeros_1, numeros_2, numeros_3) 
+numeros_ok <- bind_rows(numeros_1, numeros_2, numeros_3)
 numeros_ok <- numeros_ok %>%  mutate(id_linea = as.double(id_linea)) %>% arrange(id_linea)
 
 #- un chequeo: numeros = numeros_1+ numeros_2+numeros_3   (deben sumar el nº de rows)
@@ -219,7 +219,7 @@ rm(bb_Prog, cc_Formada, dd_numeros, numeros_1, numeros_2, numeros_3)
 #---------------- parsear los organismos el cplicaet xq esta raro
 #- resulta que cada operacion tiene una linea por cada organismo involucrado, pero ademas siempre empeiza con el ministerio (aqunue no este)
 
-#- saco los Ministerios ministerios                
+#- saco los Ministerios ministerios
 #- ministerios <- aa %>% filter((str_detect(linea, "^Ministe"))) #- En 2017
 ministerios <- aa %>% filter((str_detect(linea, "^MINISTE"))) #- En 2018 esta en Mayusculas
 
@@ -227,11 +227,11 @@ ministerios <- ministerios %>% mutate(id_ministerio = 1:n()) %>% select(id_minis
 
 #- creo indices para poner a cada operacion el ministerio al q pertenece
 ministerios <- ministerios %>% mutate(n1 = id_linea+1 )
-ministerios <- ministerios %>% mutate(n2 = lead(id_linea)-1) 
+ministerios <- ministerios %>% mutate(n2 = lead(id_linea)-1)
 ministerios$n2[nrow(ministerios)] <- nrow(aa)  #- el ultimo lo he de poner a mano
 
 #- voy a poner a cada estadistica su ministerio
-numeros_ok <- numeros_ok %>% mutate(id_ministerio = 777)  #- 
+numeros_ok <- numeros_ok %>% mutate(id_ministerio = 777)  #-
 for (i in 1:nrow(ministerios)){
   lim_inferior  <- as.double(ministerios[i,3])
   lim_superior  <- as.double(ministerios[i,4])
@@ -240,7 +240,7 @@ for (i in 1:nrow(ministerios)){
 }
 
 #- arreglo ministerios para q no se meta demasiado info en numeros_ok
-ministerios <- ministerios %>% rename(Ministerio = linea) 
+ministerios <- ministerios %>% rename(Ministerio = linea)
 ministerios <- ministerios %>% select(id_ministerio, Ministerio)
 ministerios <- ministerios %>% mutate(id_ministerio = as.numeric(id_ministerio))
 
@@ -271,7 +271,7 @@ for (i in 1:nrow(ultimo_org)){
   yy = as.numeric(ultimo_org$id_linea[i])
   numeros_ok$ult_organismo[which(numeros_ok$id_linea == yy+2)] <- ultimo_org$id_no[i]
   }
-numeros_ok <- numeros_ok %>% rename(cod_ult_org = ult_organismo) 
+numeros_ok <- numeros_ok %>% rename(cod_ult_org = ult_organismo)
 ultimo_org <- ultimo_org %>% select(id_no, linea) %>% rename(cod_ult_org = id_no) %>% rename(ultimo_org = linea)
 
 numeros_ok <- left_join(numeros_ok, ultimo_org, by= "cod_ult_org")
@@ -280,7 +280,7 @@ ultimo_org_ok <- ultimo_org
 rm(ultimo_org)
 
 
-#- añadir el PENULTIMO organismo 
+#- añadir el PENULTIMO organismo
 #- para ello primero quitar lineas de aa
 aa_resto <- aa %>% filter(!(str_detect(linea, "^MINITE"))) #- quita las 12 lineas de ministerios (DIFIERE 2017-2018)
 aa_resto <- aa_resto %>% filter(!(str_detect(linea, "NºIOE"))) #- 668 (DIFIERE 2017-2018)
@@ -312,7 +312,7 @@ penultimo_org_ok <- penultimo_org
 rm(penultimo_org, i , yy)
 
 
-#- añadir el ANTE-PENULTIMO organismo 
+#- añadir el ANTE-PENULTIMO organismo
 #- para ello primero quitar lineas de aa
 aa_resto <- aa %>% filter(!(str_detect(linea, "^MINISTE"))) #- quita las 12 lineas de ministerios (DIFIERE 2017-2018)
 aa_resto <- aa_resto %>% filter(!(str_detect(linea, "NºIOE"))) #- 668 (DIFIERE 2017-2018)
@@ -351,7 +351,7 @@ for (i in 2:nrow(numeros_ok)){
     numeros_ok[[i,1]] <- numeros_ok[[i-1,1]]
     numeros_ok[[i,14]] <- numeros_ok[[i-1,14]]  #- la 14ª columna : cod_ult_org_filled
     numeros_ok[[i,15]] <- numeros_ok[[i-1,15]]  #- la 14ª columna : ult_org_filled
-  } 
+  }
 }
 
 rm(lista_x_organismos, aa_resto, aa, i, penultimo_org, penultimo_org_ok, ultimo_org_ok, antepenultimo_org_ok)
@@ -364,7 +364,7 @@ rm(numeros_ok)
 
 #- arreglar nombres y tipos de  df_estad_x_org_ok
 df_estad_x_org_ok <- df_estad_x_org_ok %>% mutate(codigo_op_estadistica = as.numeric(code)) %>% select(-code)
-df_estad_x_org_ok <- df_estad_x_org_ok %>% mutate(code_filled = as.numeric(code_filled)) 
+df_estad_x_org_ok <- df_estad_x_org_ok %>% mutate(code_filled = as.numeric(code_filled))
 df_estad_x_org_ok <- df_estad_x_org_ok %>% rename(cod_IOE = code_1)
 df_estad_x_org_ok <- df_estad_x_org_ok %>% mutate(cod_IOE = ifelse(cod_IOE == "-------", NA, cod_IOE))
 df_estad_x_org_ok <- df_estad_x_org_ok %>% mutate(cod_IOE = as.numeric(cod_IOE))
@@ -383,21 +383,21 @@ aa <- aa %>% set_names("linea")
 aa <- aa %>% map(str_trim, side = "both") %>% as.tibble() #- quita caracteres al final
 aa <- aa %>% mutate(id_linea = 1:n())  #- 4487
 
-bb <- aa %>% filter((str_detect(linea, "Organismos que")))  #-      400 xq hay 400 operaciones estadisticas     
-cc <- aa %>% filter((str_detect(linea, "Trabajos que")))    #-      400       
-dd <- aa %>% filter((str_detect(linea, "Créditos presupuestarios")))  #-     400        
+bb <- aa %>% filter((str_detect(linea, "Organismos que")))  #-      400 xq hay 400 operaciones estadisticas
+cc <- aa %>% filter((str_detect(linea, "Trabajos que")))    #-      400
+dd <- aa %>% filter((str_detect(linea, "Créditos presupuestarios")))  #-     400
 
 #- AQUI es donde encontre el fallo q corrijo arriba arriba
-#- ee <- aa %>% filter((str_detect(linea, "^[[:digit:]]")))  #-    799, falta 1 (NO, aun esta mas liado) xq hay 4 q no tienen creditos asignados        
+#- ee <- aa %>% filter((str_detect(linea, "^[[:digit:]]")))  #-    799, falta 1 (NO, aun esta mas liado) xq hay 4 q no tienen creditos asignados
 #- ee <- ee %>% slice(-c(792,793,794)) #- 796 (OK) he de aprender mas regex
-#- ff <- aa %>% filter((str_detect(linea, "euros previstos")))  #-    396 con euros (deberian ser 400)        
+#- ff <- aa %>% filter((str_detect(linea, "euros previstos")))  #-    396 con euros (deberian ser 400)
 #- 799-396 = 403 (o sea, hay 3 raros) y 4 operaciones sin creditos asignados
 
 ee_vect <- as.vector(dd$id_linea) #- cojo los index de las lineas  donde aparece "Créditos presupuestarios"
 ee_vect <- ee_vect+1 #- el dinero asignado esta en la siguiente linea
 ee <- aa[ee_vect,]
 
-ff <- aa %>% filter((str_detect(linea, "^[0-9]{4}")))  #- 407 en 2018 vs. 400 operaciones 
+ff <- aa %>% filter((str_detect(linea, "^[0-9]{4}")))  #- 407 en 2018 vs. 400 operaciones
 ff <- ff %>% mutate(id_op = 1:n())  %>% select(id_op, everything())
 
 #- junto operaciones (ff) con pptos asignado (ee)
@@ -437,12 +437,17 @@ oper_ppto <- oper_ppto %>% select(-linea1)
 bb_vect <- as.vector(bb$id_linea) #- cojo los index de las lineas  donde aparece "Créditos presupuestarios"
 bb_vect <- bb_vect+1 #- el dinero asignado esta en la siguiente linea
 bb_o <- aa[bb_vect,]
-oper_ppto <- bind_cols(oper_ppto, bb_o)  
+oper_ppto <- bind_cols(oper_ppto, bb_o)
 oper_ppto <- oper_ppto %>% select(-id_linea1)
 oper_ppto <- oper_ppto %>% mutate(org_involu = linea1)
 
-oper_ppto <- oper_ppto %>% 
-  separate(org_involu, into = c("org_involu1", "org_involu2", "org_involu3", "org_involu4", "org_involu5", "org_involu6", "org_involu7", "org_involu8", "org_involu9", "org_involu10", "org_involu11", "org_involu12"), sep = ",", extra = "merge") 
+oper_ppto <- oper_ppto %>%
+  separate(org_involu, into = c("org_involu1", "org_involu2", "org_involu3", "org_involu4", "org_involu5", "org_involu6", "org_involu7", "org_involu8", "org_involu9", "org_involu10", "org_involu11", "org_involu12"), sep = ",", extra = "merge")
+
+
+#- quitar punto al final:
+oper_ppto <- oper_ppto %>% map(str_replace_all, "\\.$", "") %>% as.tibble()  #- quitar punto al final
+
 
 oper_ppto <- oper_ppto %>% select(-linea1)
 
@@ -452,7 +457,7 @@ oper_ppto <- oper_ppto %>% map(str_trim, side = "both") %>% as.tibble() #- quita
 
 oper_ppto <- oper_ppto %>% select(-org_involu12)
 
-oper_ppto <- oper_ppto %>% 
+oper_ppto <- oper_ppto %>%
   separate(linea, into = c("codigo_op_estadistica", "op_estadistica"), sep = 5)
 
 #- trabajos que se van a hacer en 2017
