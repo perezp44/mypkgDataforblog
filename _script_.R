@@ -43,6 +43,7 @@ aa <- ls("package:mypkgDataforblog", all = TRUE) %>% as.data.frame()#- ves lo qu
 
 vignette(package = "mypkgDataforblog")
 
+bb <- padron_15_x_nac_res
 
 
 #- Github
