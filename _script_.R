@@ -47,13 +47,14 @@ vignette(package = "mypkgDataforblog")
 
 #- Github
 
-cd c:/Users/perezp/Desktop/a_GIT_2016a/mypkgfordata
+cd c:/Users/perezp/Desktop/a_GIT_2016a/mypkgDataforblog
 
 git add -A    # stages all files
 git add .
 git commit --all --message "Creando el REPO"
 git remote add origin https://github.com/perezp44/mypkgfordata.git
 
+git push -u origin master
 
 
 
