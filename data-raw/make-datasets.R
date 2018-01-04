@@ -310,4 +310,17 @@ library(sf)
 CNIG_CCAA_sf <- st_read("./data-raw/spatial_ESP/CCAA2011_ETRS89_LAEA/CCAA2011_ETRS89_LAEA.shp")
 # devtools::use_data(CNIG_CCAA_sf, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-04
 
-#st_write(CNIG_CCAA_sf, "nc1.shp")
+
+#' (04-01-2018)-----------------------------------------------------
+#- Intento de pasar los datos espaciales de ESP a sf
+library(sf)
+CNIG_provincias_sf <- st_read("./data-raw/spatial_ESP/Provincias2011_ETRS89_LAEA/Provincias2011_ETRS89_LAEA.shp")
+# devtools::use_data(CNIG_provincias_sf, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-04
+
+
+#' (04-01-2018)-----------------------------------------------------
+#- Intento de pasar los datos espaciales de ESP a sf
+library(sf)
+CNIG_municipios_sf <- st_read("./data-raw/spatial_ESP/Municipios2011_ETRS89_LAEA/Municipios2011_ETRS89_LAEA.shp")
+# devtools::use_data(CNIG_municipios_sf, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-04
+

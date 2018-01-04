@@ -434,8 +434,6 @@
 "listado_organismos_PEN"
 
 
-
-
 #' CNIG_CCAA_sf.rda
 #'
 #' Shapefiles de CCAA de CNIG
@@ -448,7 +446,7 @@
 #' epsg (SRID):    NA
 #' proj4string:    +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs
 #'
-#' @format Es Spatial Polygon Dataframe, pero su df tiene 18 y 7 columnas
+#' @format Es simple feauture 18 rows y 8 columnas
 #' \itemize{
 #'   \item NombreCCAA: nombre CCAA
 #'   \item INECodCCAA: codigo CCAA
@@ -464,4 +462,80 @@
 "CNIG_CCAA_sf"
 
 
+
+
+#' CNIG_provincias_sf.rda
+#'
+#' Shapefiles de PROVINCIAS de CNIG
+#' https://www.cnig.es/
+#'
+#' Reading layer `Provincias2011_ETRS89_LAEA' from data source `C:\Users\perezp\Desktop\a_GIT_2016a\mypkgDataforblog\data-raw\spatial_ESP\Provincias2011_ETRS89_LAEA\Provincias2011_ETRS89_LAEA.shp' using driver `ESRI Shapefile'
+#' Simple feature collection with 52 features and 10 fields
+#' geometry type:  MULTIPOLYGON
+#' dimension:      XY
+#' bbox:           xmin: 1547225 ymin: 941709.3 xmax: 3833655 ymax: 2468216
+#' epsg (SRID):    NA
+#' proj4string:    +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs
+#'
+#'
+#' @format Es simple features  52 rows y 11 columnas
+#' \itemize{
+#'   \item NombreProv: nombre provincia
+#'   \item INECodProv: codigo provincia
+#'   \item INENumProv: numero provincia
+#'   \item NombreCCAA:
+#'   \item INECodCCAA:
+#'   \item INENumCCAA:
+#'   \item Area:
+#'   \item Perimeter:
+#'   \item X_Centroid:
+#'   \item Y_Centroid:
+#' }
+#'
+#'
+#' @source \url{https://www.cnig.es/}
+"CNIG_provincias_sf"
+
+
+
+
+
+
+
+
+#' CNIG_municipios_sf.rds
+#'
+#' Shapefiles de municipios de CNIG
+#' https://www.cnig.es/
+#'
+#' Reading layer `Municipios2011_ETRS89_LAEA' from data source `C:\Users\perezp\Desktop\a_GIT_2016a\mypkgDataforblog\data-raw\spatial_ESP\Municipios2011_ETRS89_LAEA\Municipios2011_ETRS89_LAEA.shp' using driver `ESRI Shapefile'
+#' Simple feature collection with 8116 features and 13 fields
+#' geometry type:  MULTIPOLYGON
+#' dimension:      XY
+#' bbox:           xmin: 1547225 ymin: 941709.3 xmax: 3833655 ymax: 2468216
+#' epsg (SRID):    NA
+#' proj4string:    +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs
+#'
+#'
+#' @format Es Ssimple feature 8116 rows y 13 columnas (+ la geometry)
+#' pero resulta que en el fichero del INE tengo 8125 municipios
+#' \itemize{
+#'   \item NombreMuni: nombre del municipio
+#'   \item INECodMuni: codigo del municipio [tiene 5 dígitos; cod_prov+cod_muni]
+#'   \item INENumMuni: número del municipio
+#'   \item NombreProv:
+#'   \item INECodProv:
+#'   \item INENumProv:
+#'   \item NombreCCAA:
+#'   \item INECodCCAA:
+#'   \item INENumCCAA:
+#'   \item Area:
+#'   \item Perimeter:
+#'   \item X_Centroid:
+#'   \item Y_Centroid:
+#' }
+#'
+#'
+#' @source \url{https://www.cnig.es/}
+"CNIG_municipios_sf"
 
