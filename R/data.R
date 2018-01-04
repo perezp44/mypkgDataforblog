@@ -432,3 +432,36 @@
 #'
 #'
 "listado_organismos_PEN"
+
+
+
+
+#' CNIG_CCAA_sf.rda
+#'
+#' Shapefiles de CCAA de CNIG
+#' https://www.cnig.es/
+#'
+#' Simple feature collection with 18 features and 7 fields
+#' geometry type:  MULTIPOLYGON
+#' dimension:      XY
+#' bbox:           xmin: 1547225 ymin: 941709.3 xmax: 3833655 ymax: 2468216
+#' epsg (SRID):    NA
+#' proj4string:    +proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs
+#'
+#' @format Es Spatial Polygon Dataframe, pero su df tiene 18 y 7 columnas
+#' \itemize{
+#'   \item NombreCCAA: nombre CCAA
+#'   \item INECodCCAA: codigo CCAA
+#'   \item INENumCCAA: numero CCAA
+#'   \item Area:
+#'   \item Perimeter:
+#'   \item X_Centroid:
+#'   \item Y_Centroid:
+#' }
+#'
+#'
+#' @source \url{https://www.cnig.es/}
+"CNIG_CCAA_sf"
+
+
+

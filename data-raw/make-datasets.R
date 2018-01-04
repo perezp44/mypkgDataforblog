@@ -304,3 +304,10 @@ padron_15_x_nac_res <- df_x
 
 
 
+#' (04-01-2018)-----------------------------------------------------
+#- Intento de pasar los datos espaciales de ESP a sf
+library(sf)
+CNIG_CCAA_sf <- st_read("./data-raw/spatial_ESP/CCAA2011_ETRS89_LAEA/CCAA2011_ETRS89_LAEA.shp")
+# devtools::use_data(CNIG_CCAA_sf, overwrite = TRUE) #- lo vuelvo a guardar el 2018-01-03
+
+#st_write(CNIG_CCAA_sf, "nc1.shp")
