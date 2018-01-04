@@ -3,6 +3,7 @@
 #- 2) Para q vaya a memoria del pkg has de: devtools::use_data(CNIG_CCAA_sf, overwrite = TRUE) #
 #- 3) Añadir la documentacion co roxygen en ./R/data.R
 #- 4) Finalmente has de actualizar con: devtools::document()
+#- 5) Llevarlo a Github
 
 library(readxl)
 #dir.create("./data")
