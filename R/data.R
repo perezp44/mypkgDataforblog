@@ -469,7 +469,7 @@
 #' Shapefiles de PROVINCIAS de CNIG
 #' https://www.cnig.es/
 #'
-#' Reading layer `Provincias2011_ETRS89_LAEA' from data source `C:\Users\perezp\Desktop\a_GIT_2016a\mypkgDataforblog\data-raw\spatial_ESP\Provincias2011_ETRS89_LAEA\Provincias2011_ETRS89_LAEA.shp' using driver `ESRI Shapefile'
+#' Reading layer Provincias2011_ETRS89_LAEA from data source Provincias2011_ETRS89_LAEA.shp using driver ESRI Shapefile
 #' Simple feature collection with 52 features and 10 fields
 #' geometry type:  MULTIPOLYGON
 #' dimension:      XY
@@ -508,7 +508,7 @@
 #' Shapefiles de municipios de CNIG
 #' https://www.cnig.es/
 #'
-#' Reading layer `Municipios2011_ETRS89_LAEA' from data source `C:\Users\perezp\Desktop\a_GIT_2016a\mypkgDataforblog\data-raw\spatial_ESP\Municipios2011_ETRS89_LAEA\Municipios2011_ETRS89_LAEA.shp' using driver `ESRI Shapefile'
+#' Reading layer Municipios2011_ETRS89_LAEA from data Municipios2011_ETRS89_LAEA.shp using driver ESRI Shapefile
 #' Simple feature collection with 8116 features and 13 fields
 #' geometry type:  MULTIPOLYGON
 #' dimension:      XY
