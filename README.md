@@ -13,7 +13,7 @@ devtools::install_github("perezp44/mypkgDataforblog")
 
 ## Example
 
-The pacakge only have some data files, then you can load them in R as ususalli with:
+The pacakge only have some data files, then you can load them in R as ususally with:
 
 ```R
 my_data <- data(some_data)

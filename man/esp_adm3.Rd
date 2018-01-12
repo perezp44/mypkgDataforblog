@@ -5,7 +5,7 @@
 \alias{esp_adm3}
 \title{esp_adm3.rda}
 \format{Es Spatial Polygon, pero su df tiene 369 rows y 16 columnas
-¿xq hay 369 comarcas, si realmente muchos tienen NAME_3 = %na? Pues xq SI, molan las comarcas}
+xq hay 369 comarcas, si realmente muchos tienen NAME_3 = %na Pues xq SI, molan las comarcas}
 \source{
 \url{http://www.gadm.org/country}
 }
