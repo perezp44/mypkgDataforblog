@@ -32,6 +32,7 @@ Shapefiles de municipios de CNIG
 https://www.cnig.es/
 }
 \details{
+Reading layer Municipios2011_ETRS89_LAEA from data Municipios2011_ETRS89_LAEA.shp using driver ESRI Shapefile
 Reading layer `Municipios2011_ETRS89_LAEA' from data source Municipios2011_ETRS89_LAEA.shp using driver `ESRI Shapefile'
 Simple feature collection with 8116 features and 13 fields
 geometry type:  MULTIPOLYGON

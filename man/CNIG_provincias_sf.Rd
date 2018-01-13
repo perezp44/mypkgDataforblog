@@ -28,6 +28,7 @@ Shapefiles de PROVINCIAS de CNIG
 https://www.cnig.es/
 }
 \details{
+Reading layer Provincias2011_ETRS89_LAEA from data source Provincias2011_ETRS89_LAEA.shp using driver ESRI Shapefile
 Reading layer `Provincias2011_ETRS89_LAEA' from data source Provincias2011_ETRS89_LAEA.shp using driver ESRI Shapefile
 Simple feature collection with 52 features and 10 fields
 geometry type:  MULTIPOLYGON

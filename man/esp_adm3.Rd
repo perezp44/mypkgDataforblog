@@ -4,8 +4,7 @@
 \name{esp_adm3}
 \alias{esp_adm3}
 \title{esp_adm3.rda}
-\format{Es Spatial Polygon, pero su df tiene 369 rows y 16 columnas
-xq hay 369 comarcas, si realmente muchos tienen NAME_3 = %na Pues xq SI, molan las comarcas}
+\format{An object of class \code{SpatialPolygonsDataFrame} with 369 rows and 16 columns.}
 \source{
 \url{http://www.gadm.org/country}
 }
@@ -15,5 +14,7 @@ esp_adm3
 \description{
 Shapefiles de GADM database of Global Administrative Areas: COMARCAS
 http://www.gadm.org/country
+Es Spatial Polygon, pero su df tiene 369 rows y 16 columnas
+xq hay 369 comarcas, si realmente muchos tienen NAME_3 = %na Pues xq SI, molan las comarcas
 }
 \keyword{datasets}

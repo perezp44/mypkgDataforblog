@@ -148,8 +148,7 @@
 #'
 #' Shapefiles de GADM database of Global Administrative Areas: COMARCAS
 #' http://www.gadm.org/country
-#'
-#' @format Es Spatial Polygon, pero su df tiene 369 rows y 16 columnas
+#' Es Spatial Polygon, pero su df tiene 369 rows y 16 columnas
 #' xq hay 369 comarcas, si realmente muchos tienen NAME_3 = %na Pues xq SI, molan las comarcas
 #'
 #' @source \url{http://www.gadm.org/country}
@@ -469,11 +468,8 @@
 #' Shapefiles de PROVINCIAS de CNIG
 #' https://www.cnig.es/
 #'
-<<<<<<< HEAD
 #' Reading layer Provincias2011_ETRS89_LAEA from data source Provincias2011_ETRS89_LAEA.shp using driver ESRI Shapefile
-=======
 #' Reading layer `Provincias2011_ETRS89_LAEA' from data source Provincias2011_ETRS89_LAEA.shp using driver ESRI Shapefile
->>>>>>> c65db66cd82a3e03d53e88516d75fecdb9ce2971
 #' Simple feature collection with 52 features and 10 fields
 #' geometry type:  MULTIPOLYGON
 #' dimension:      XY
@@ -512,11 +508,8 @@
 #' Shapefiles de municipios de CNIG
 #' https://www.cnig.es/
 #'
-<<<<<<< HEAD
 #' Reading layer Municipios2011_ETRS89_LAEA from data Municipios2011_ETRS89_LAEA.shp using driver ESRI Shapefile
-=======
 #' Reading layer `Municipios2011_ETRS89_LAEA' from data source Municipios2011_ETRS89_LAEA.shp using driver `ESRI Shapefile'
->>>>>>> c65db66cd82a3e03d53e88516d75fecdb9ce2971
 #' Simple feature collection with 8116 features and 13 fields
 #' geometry type:  MULTIPOLYGON
 #' dimension:      XY
